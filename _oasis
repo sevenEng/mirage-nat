@@ -18,7 +18,7 @@ Library "mirage-nat"
   Path: lib
   Modules: Nat_rewrite, Nat_translations, Nat_decompose, Nat_types
   InternalModules: Nat_shims, Nat_lookup, Nat_table
-  BuildDepends: ipaddr, tcpip, cstruct, sexplib, sexplib.syntax, tc, irmin-network-datastores, irmin, irmin.mem, lwt, mirage-profile
+  BuildDepends: ipaddr, tcpip, cstruct, sexplib, ppx_sexp_conv, tc, irmin-network-datastores, irmin, irmin.mem, lwt, mirage-profile, io-page
 
 Executable randomized_tests
   Build$: flag(randomized) && flag(tests)

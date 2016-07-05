@@ -1,13 +1,13 @@
 open Nat_types
 
 module Endpoint : sig
-  type t = endpoint with sexp
-  type mapping = (t * t) with sexp
+  type t = endpoint [@@deriving sexp]
+  type mapping = (t * t) [@@deriving sexp]
   include Inds_types.KEY with type t := t
 end = struct
   open Sexplib.Std
-  type t = (Ipaddr.t * int) with sexp
-  type mapping = (t * t) with sexp
+  type t = (Ipaddr.t * int) [@@deriving sexp]
+  type mapping = (t * t) [@@deriving sexp]
 
   let to_string t = Sexplib.Sexp.to_string (sexp_of_t t)
   let of_string str =
@@ -25,8 +25,8 @@ end = struct
 end
 
 module Entry : sig
-  type entry = (endpoint * endpoint) with sexp
-  type t = | Confirmed of int * entry with sexp
+  type entry = (endpoint * endpoint) [@@deriving sexp]
+  type t = | Confirmed of int * entry [@@deriving sexp]
   type result = [ `Ok of entry | `Timeout ]
   include Inds_types.ENTRY
     with type entry := entry
@@ -38,8 +38,8 @@ module Entry : sig
   val equal : t -> t -> bool
 end = struct
   open Sexplib.Std
-  type entry = (Endpoint.t * Endpoint.t) with sexp
-  type t = | Confirmed of int * entry with sexp
+  type entry = (Endpoint.t * Endpoint.t) [@@deriving sexp]
+  type t = | Confirmed of int * entry [@@deriving sexp]
   type result = [ `Ok of entry | `Timeout ]
                 (* t and result feel wrong here *)
   let make_confirmed time entry = Confirmed (time, entry)
@@ -66,13 +66,13 @@ end = struct
 end
 
 module Key : sig
-  type protocol = | Udp | Tcp with sexp
-  type t = (protocol * Endpoint.t * Endpoint.t) with sexp
+  type protocol = | Udp | Tcp [@@deriving sexp]
+  type t = (protocol * Endpoint.t * Endpoint.t) [@@deriving sexp]
   include Inds_types.KEY with type t := t
 end = struct
   open Sexplib.Std
-  type protocol = | Udp | Tcp with sexp
-  type t = (protocol * Endpoint.t * Endpoint.t) with sexp
+  type protocol = | Udp | Tcp [@@deriving sexp]
+  type t = (protocol * Endpoint.t * Endpoint.t) [@@deriving sexp]
 
   let compare (proto_l, src_l, dst_l) (proto_r, src_r, dst_r) =
     match compare proto_l proto_r with
