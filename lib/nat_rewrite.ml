@@ -59,7 +59,7 @@ end = struct
             rewrite_port higherproto_packet (new_sport, new_dport);
             decrement_ttl ip_packet;
             recalculate_ip_checksum ip_packet higherproto_packet;
-            Lwt.return Translated
+            Lwt.return (Translated (V4 new_dst))
 
           (* TODO: 4-to-6 logic *)
           | Some (_expiry, ((V6 new_src, new_sport), (V6 new_dst, new_dport))) ->
