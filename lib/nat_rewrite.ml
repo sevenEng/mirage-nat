@@ -2,7 +2,9 @@ open Ipaddr
 open Mirage_nat
 
 module Make(Nat_table : Mirage_nat.Lookup) : sig
-  include Mirage_nat.S with type config = Nat_table.config
+  include Mirage_nat.S with
+    type config = Nat_table.config and
+    type t = Nat_table.t
 end = struct
   let src = Logs.Src.create "nat-rewrite" ~doc:"Mirage NAT packet rewriter"
   module Log = (val Logs.src_log src : Logs.LOG)
