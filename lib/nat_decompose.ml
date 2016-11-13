@@ -86,8 +86,9 @@ let rewrite_packet ~ethernet:(eth_header, eth_payload)
        (* TODO: unfortunately, in order to correctly figure out the pseudoheader (and thus the TCP checksum),
         * we need to know the length field of the IPv4 header.  That means we need to know the *overall* length,
         * which means we need to know how many bytes are required to marshal the TCP options. *)
-       let options_buf = Cstruct.create 60 in
-       let options_length = Tcp.Options.marshal options_buf tcp_header.options in
+       (*let options_buf = Cstruct.create 80 in
+       let options_length = Tcp.Options.marshal options_buf tcp_header.options in*)
+       let options_length = Tcp.Options.lenv tcp_header.options in
        let pseudoheader = Ipv4_packet.Marshal.pseudoheader ~src ~dst ~proto:`TCP (Tcp.Tcp_wire.sizeof_tcp + options_length + Cstruct.len tcp_payload) in
        let new_transport_header = { tcp_header with src_port; dst_port } in
        Tcp.Tcp_packet.Marshal.into_cstruct
